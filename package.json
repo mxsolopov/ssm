@@ -12,8 +12,8 @@
     "mongodb",
     "mern"
   ],
-  "repository": "https://github.com/mxsolopov/solopov-social-media.git",
-  "homepage": "https://github.com/mxsolopov/solopov-social-media",
+  "repository": "",
+  "homepage": "",
   "main": "server.js",
   "scripts": {
     "development": "webpack-dev-server --mode development",

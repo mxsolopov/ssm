@@ -22,18 +22,16 @@ mongoose.connection.on("error", () => {
   throw new Error(`unable to connect to database: ${process.env.MONGODB_URI}`)
 })
 
-app.get("*.js", (req, res, next) => {
-  // Set the MIME type for JavaScript files
-  console.log("Javascript")
-  res.set("Content-Type", "application/javascript")
-  next()
-})
-
 if (process.env.NODE_ENV === "production") {
   app.use("/", express.static(path.join(__dirname, "dist")))
 
-  app.get("*", (req, res) => {
+  app.get("/", (req, res) => {
     res.sendFile(path.resolve(__dirname, "dist", "index.html"))
+  })
+
+  app.get("*.js", (req, res) => {
+    res.set("Content-Type", "application/javascript")
+    res.sendFile(path.resolve(__dirname, "dist", "bundle.js"))
   })
 }
 
