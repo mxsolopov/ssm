@@ -1,6 +1,6 @@
 import React from "react"
 import { Container, Navbar, Button, Stack } from "react-bootstrap"
-import { SignOut } from "phosphor-react"
+import { SignOut, UserSwitch } from "phosphor-react"
 import logo from "../assets/images/logo.svg"
 import { useNavigate } from "react-router-dom"
 import auth from "../auth/auth-helper.js"
@@ -32,14 +32,7 @@ const Layout = ({ children }) => {
       >
         <Container fluid="xl">
           <Navbar.Brand role="button" onClick={() => navigate("/")}>
-            <img
-              alt=""
-              src={logo}
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{" "}
-            Solopov Space
+            <UserSwitch size={32} weight="fill" /> Solopov Space
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse
@@ -105,7 +98,10 @@ const Layout = ({ children }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <main className="d-flex py-5" style={{ minHeight: contentMinHeight + "px" }}>
+      <main
+        className="d-flex py-5"
+        style={{ minHeight: contentMinHeight + "px" }}
+      >
         {children}
       </main>
       <footer className="bg-light text-center text-lg-start" ref={footerRef}>
