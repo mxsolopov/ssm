@@ -3,7 +3,7 @@ import PostList from "../post/PostList.js"
 import auth from "../auth/auth-helper.js"
 import { listNewsFeed } from "../post/api-post.js"
 
-const PostsByUser = () => {
+const PostsByUser = ({ userId }) => {
   const [posts, setPosts] = React.useState([])
   const jwt = auth.isAuthenticated()
 
@@ -13,7 +13,7 @@ const PostsByUser = () => {
 
     listNewsFeed(
       {
-        userId: jwt.user._id,
+        userId: userId,
       },
       {
         t: jwt.token,
@@ -23,7 +23,7 @@ const PostsByUser = () => {
       if (data.error) {
         console.log(data.error)
       } else {
-        setPosts(data.filter(post => post.postedBy._id === jwt.user._id))
+        setPosts(data.filter((post) => post.postedBy._id === userId))
       }
     })
     return function cleanup() {
@@ -46,13 +46,13 @@ const PostsByUser = () => {
     setPosts(() => {
       const updatedPosts = posts.map((post) => {
         if (post._id === postId) {
-          return { ...post, ...newData };
+          return { ...post, ...newData }
         }
-        return post;
-      });
-      return updatedPosts;
-    });
-  };
+        return post
+      })
+      return updatedPosts
+    })
+  }
 
   return (
     <>

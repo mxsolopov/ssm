@@ -19,6 +19,8 @@ import { Trash, PencilSimple, FloppyDisk } from "phosphor-react"
 import FollowProfileButton from "./FollowProfileButton.js"
 import FollowGrid from "./FollowGrid.js"
 import PostsByUser from "./PostsByUser.js"
+import PostList from "../post/PostList.js"
+import { listNewsFeed } from "../post/api-post.js"
 import { removeUserPosts } from "../post/api-post.js"
 import { upload } from "./api-avatar.js"
 import avatarTemplate from "../assets/images/avatar-template.png"
@@ -46,6 +48,8 @@ const Profile = () => {
   // Файл аватарки
   const [avatar, setAvatar] = React.useState(null)
   const [avatarFileId, setAvatarFileId] = React.useState(null)
+  // Посты
+  const [posts, setPosts] = React.useState([])
 
   const isAuthenticated =
     auth.isAuthenticated().user && auth.isAuthenticated().user._id == user._id
@@ -94,6 +98,23 @@ const Profile = () => {
             )
           }
         })
+      }
+    })
+
+    // Получение постов для профиля
+    listNewsFeed(
+      {
+        userId: userId,
+      },
+      {
+        t: jwt.token,
+      },
+      signal
+    ).then((data) => {
+      if (data.error) {
+        console.log(data.error)
+      } else {
+        setPosts(data.filter((post) => post.postedBy._id === userId))
       }
     })
 
@@ -190,6 +211,29 @@ const Profile = () => {
       .catch((error) => {
         console.error("Ошибка при загрузке аватарки:", error)
       })
+  }
+
+  const addComment = (postId, comment) => {
+    const updatedPosts = posts.map((post) => {
+      if (post._id === postId) {
+        const updatedComments = [...post.comments, comment]
+        return { ...post, comments: updatedComments }
+      }
+      return post
+    })
+    setPosts(updatedPosts)
+  }
+
+  const updatePost = (postId, newData) => {
+    setPosts(() => {
+      const updatedPosts = posts.map((post) => {
+        if (post._id === postId) {
+          return { ...post, ...newData }
+        }
+        return post
+      })
+      return updatedPosts
+    })
   }
 
   return (
@@ -383,7 +427,11 @@ const Profile = () => {
                 justify
               >
                 <Tab eventKey="home" title="Посты">
-                  <PostsByUser />
+                  <PostList
+                    posts={posts}
+                    addComment={addComment}
+                    updatePost={updatePost}
+                  />
                 </Tab>
                 <Tab eventKey="profile" title="Подписан">
                   <FollowGrid followUsers={followingUsers} />
