@@ -1,13 +1,26 @@
 import React from "react"
 import { Card, Button, Image } from "react-bootstrap"
 import CommentList from "./CommentList.js"
-import { ThumbsDown, ThumbsUp, TrashSimple } from "phosphor-react"
+import { ThumbsDown, ThumbsUp, TrashSimple, User } from "phosphor-react"
 import CommentForm from "./CommentForm.js"
-import { like, removelike, dislike, removedislike, removePost } from "./api-post.js"
+import {
+  like,
+  removelike,
+  dislike,
+  removedislike,
+  removePost,
+} from "./api-post.js"
 import auth from "../auth/auth-helper.js"
 import avatarTemplate from "../assets/images/avatar-template.png"
 
-const Post = ({ post, postId, addComment, updatePost, deletePost, deleteComment }) => {
+const Post = ({
+  post,
+  postId,
+  addComment,
+  updatePost,
+  deletePost,
+  deleteComment,
+}) => {
   const jwt = auth.isAuthenticated()
   const userId = jwt.user._id
   const isDislike = post.dislikes.includes(userId)
@@ -136,7 +149,7 @@ const Post = ({ post, postId, addComment, updatePost, deletePost, deleteComment 
       },
       {
         t: jwt.token,
-      },
+      }
     ).then((data) => {
       if (data.error) {
         console.log(data.error)
@@ -150,15 +163,31 @@ const Post = ({ post, postId, addComment, updatePost, deletePost, deleteComment 
     <Card className="mb-4">
       <Card.Header className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center gap-2">
-          <Image
-            src={post.postedBy.avatar === "" ? avatarTemplate : `/api/avatar/${post.postedBy.avatar}`}
-            roundedCircle
-            style={{
-              width: "50px",
-              height: "50px",
-              objectFit: "cover",
-            }}
-          />
+          {post.postedBy.avatar === "" ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+                background: "#dddddd",
+                borderRadius: "50%",
+              }}
+            >
+              <User color="#b8b8b8" size={24} weight="fill" />
+            </div>
+          ) : (
+            <Image
+              src={`/api/avatar/${post.postedBy.avatar}`}
+              roundedCircle
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+              }}
+            />
+          )}
           <div>
             <div style={{ fontSize: "14px" }}>{post.postedBy.name}</div>
             <div style={{ fontSize: "12px" }} className="text-muted">

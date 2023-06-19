@@ -1,7 +1,7 @@
 import React from "react"
 import { ListGroup, Button, Image } from "react-bootstrap"
 import { useNavigate } from "react-router"
-import { ArrowRight } from "phosphor-react"
+import { ArrowRight, User } from "phosphor-react"
 import auth from "../auth/auth-helper.js"
 import FollowProfileButton from "./FollowProfileButton.js"
 import { read } from "./api-user.js"
@@ -62,15 +62,31 @@ const UserListItem = ({ user }) => {
       as="li"
       className="d-flex justify-content-between align-items-center"
     >
-      <Image
-        src={user.avatar === "" ? avatarTemplate : `/api/avatar/${user.avatar}`}
-        rounded
-        style={{
-          width: "40px",
-          height: "40px",
-          objectFit: "cover",
-        }}
-      />
+      {user.avatar === "" ? (
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "40px",
+            height: "40px",
+            background: "#dddddd",
+            borderRadius: "50%",
+          }}
+        >
+          <User color="#b8b8b8" size={24} weight="fill" />
+        </div>
+      ) : (
+        <Image
+          src={`/api/avatar/${user.avatar}`}
+          roundedCircle
+          style={{
+            width: "40px",
+            height: "40px",
+            objectFit: "cover",
+          }}
+        />
+      )}
       <div className="ms-2 me-auto fw-bold">{user.name}</div>
       <FollowProfileButton
         following={following}

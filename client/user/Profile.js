@@ -15,10 +15,9 @@ import { read, update, remove, list } from "./api-user.js"
 import { useNavigate } from "react-router"
 import { useParams } from "react-router-dom"
 import Layout from "../core/Layout.js"
-import { Trash, PencilSimple, FloppyDisk } from "phosphor-react"
+import { Trash, PencilSimple, FloppyDisk, User } from "phosphor-react"
 import FollowProfileButton from "./FollowProfileButton.js"
 import FollowGrid from "./FollowGrid.js"
-import PostsByUser from "./PostsByUser.js"
 import PostList from "../post/PostList.js"
 import { listNewsFeed } from "../post/api-post.js"
 import { removeUserPosts } from "../post/api-post.js"
@@ -246,22 +245,45 @@ const Profile = () => {
                 <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="profile-photo">
                     <Form.Label style={{ cursor: "pointer" }}>
-                      <Image
-                        src={
-                          avatar
-                            ? URL.createObjectURL(avatar)
-                            : avatarFileId
-                            ? `/api/avatar/${avatarFileId}`
-                            : avatarTemplate
-                        }
-                        alt="Avatar"
-                        roundedCircle
-                        style={{
-                          width: "100px",
-                          height: "100px",
-                          objectFit: "cover",
-                        }}
-                      />
+                      {avatar && (
+                        <Image
+                          src={URL.createObjectURL(avatar)}
+                          alt="Avatar"
+                          roundedCircle
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      )}
+                      {avatarFileId && (
+                        <Image
+                          src={`/api/avatar/${avatarFileId}`}
+                          alt="Avatar"
+                          roundedCircle
+                          style={{
+                            width: "100px",
+                            height: "100px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      )}
+                      {!avatar && !avatarFileId && (
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100px",
+                            height: "100px",
+                            background: "#dddddd",
+                            borderRadius: "50%",
+                          }}
+                        >
+                          <User color="#b8b8b8" size={64} weight="fill" />
+                        </div>
+                      )}
                     </Form.Label>
                     <Form.Control
                       type="file"
@@ -271,13 +293,9 @@ const Profile = () => {
                   </Form.Group>
                   {avatar && <Button type="submit">Загрузить</Button>}
                 </Form>
-              ) : (
+              ) : avatarFileId ? (
                 <Image
-                  src={
-                    avatarFileId
-                      ? `/api/avatar/${avatarFileId}`
-                      : avatarTemplate
-                  }
+                  src={`/api/avatar/${avatarFileId}`}
                   alt="Avatar"
                   roundedCircle
                   style={{
@@ -286,6 +304,20 @@ const Profile = () => {
                     objectFit: "cover",
                   }}
                 />
+              ) : (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100px",
+                    height: "100px",
+                    background: "#dddddd",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <User color="#b8b8b8" size={64} weight="fill" />
+                </div>
               )}
 
               <div className="d-flex">

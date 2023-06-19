@@ -1,6 +1,6 @@
 import React from "react"
 import { Card, Image, Button } from "react-bootstrap"
-import { TrashSimple } from "phosphor-react"
+import { TrashSimple, User } from "phosphor-react"
 import auth from "../auth/auth-helper.js"
 import { removeComment } from "./api-post.js"
 import avatarTemplate from "../assets/images/avatar-template.png"
@@ -37,19 +37,31 @@ const Comment = ({
     <Card className="mb-3">
       <Card.Header className="d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center gap-2">
-          <Image
-            src={
-              comment.postedBy.avatar === ""
-                ? avatarTemplate
-                : `/api/avatar/${comment.postedBy.avatar}`
-            }
-            roundedCircle
-            style={{
-              width: "30px",
-              height: "30px",
-              objectFit: "cover",
-            }}
-          />
+          {comment.postedBy.avatar === "" ? (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "40px",
+                height: "40px",
+                background: "#dddddd",
+                borderRadius: "50%",
+              }}
+            >
+              <User color="#b8b8b8" size={24} weight="fill" />
+            </div>
+          ) : (
+            <Image
+              src={`/api/avatar/${comment.postedBy.avatar}`}
+              roundedCircle
+              style={{
+                width: "40px",
+                height: "40px",
+                objectFit: "cover",
+              }}
+            />
+          )}
           <div>
             <div style={{ fontSize: "14px" }}>{comment.postedBy.name}</div>
             <div style={{ fontSize: "12px" }} className="text-muted">

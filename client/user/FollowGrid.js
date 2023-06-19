@@ -1,8 +1,7 @@
 import React from "react"
 import { Image, Button, ListGroup } from "react-bootstrap"
 import { useNavigate } from "react-router"
-import { ArrowRight } from "phosphor-react"
-import avatarTemplate from "../assets/images/avatar-template.png"
+import { ArrowRight, User } from "phosphor-react"
 
 const FollowGrid = ({ followUsers }) => {
   const navigate = useNavigate()
@@ -18,15 +17,31 @@ const FollowGrid = ({ followUsers }) => {
               key={i}
               className="d-flex justify-content-between align-items-center"
             >
-              <Image
-                src={user.avatar === "" ? avatarTemplate : `/api/avatar/${user.avatar}`}
-                rounded
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  objectFit: "cover",
-                }}
-              />
+              {user.avatar === "" ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "40px",
+                    height: "40px",
+                    background: "#dddddd",
+                    borderRadius: "50%",
+                  }}
+                >
+                  <User color="#b8b8b8" size={24} weight="fill" />
+                </div>
+              ) : (
+                <Image
+                  src={`/api/avatar/${user.avatar}`}
+                  roundedCircle
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
               <div className="ms-2 me-auto fw-bold">{user.name}</div>
               <Button
                 variant="outline-secondary"
