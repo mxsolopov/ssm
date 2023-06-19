@@ -11,7 +11,6 @@ import {
   removePost,
 } from "./api-post.js"
 import auth from "../auth/auth-helper.js"
-import avatarTemplate from "../assets/images/avatar-template.png"
 
 const Post = ({
   post,

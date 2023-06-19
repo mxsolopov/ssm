@@ -3,7 +3,6 @@ import { Card, Image, Button } from "react-bootstrap"
 import { TrashSimple, User } from "phosphor-react"
 import auth from "../auth/auth-helper.js"
 import { removeComment } from "./api-post.js"
-import avatarTemplate from "../assets/images/avatar-template.png"
 
 const Comment = ({
   comment,

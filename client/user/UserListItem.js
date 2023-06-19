@@ -5,7 +5,6 @@ import { ArrowRight, User } from "phosphor-react"
 import auth from "../auth/auth-helper.js"
 import FollowProfileButton from "./FollowProfileButton.js"
 import { read } from "./api-user.js"
-import avatarTemplate from "../assets/images/avatar-template.png"
 
 const UserListItem = ({ user }) => {
   const navigate = useNavigate()
