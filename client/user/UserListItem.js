@@ -57,48 +57,48 @@ const UserListItem = ({ user }) => {
   }, [])
 
   return (
-    <ListGroup.Item
-      as="li"
-      className="d-flex justify-content-between align-items-center"
-    >
-      {user.avatar === "" ? (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "40px",
-            height: "40px",
-            background: "#dddddd",
-            borderRadius: "50%",
-          }}
+    <ListGroup.Item as="li" className="d-flex flex-column py-3">
+      <div className="d-flex justify-content-between align-items-center">
+        {user.avatar === "" ? (
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "40px",
+              height: "40px",
+              background: "#dddddd",
+              borderRadius: "50%",
+            }}
+          >
+            <User color="#b8b8b8" size={24} weight="fill" />
+          </div>
+        ) : (
+          <Image
+            src={`/api/avatar/${user.avatar}`}
+            roundedCircle
+            style={{
+              width: "40px",
+              height: "40px",
+              objectFit: "cover",
+            }}
+          />
+        )}
+        <div className="ms-2 me-auto fw-bold">{user.name}</div>
+        <Button
+          variant="outline-secondary"
+          size="sm"
+          className="mx-2"
+          onClick={() => navigate("/user/" + user._id)}
         >
-          <User color="#b8b8b8" size={24} weight="fill" />
-        </div>
-      ) : (
-        <Image
-          src={`/api/avatar/${user.avatar}`}
-          roundedCircle
-          style={{
-            width: "40px",
-            height: "40px",
-            objectFit: "cover",
-          }}
-        />
-      )}
-      <div className="ms-2 me-auto fw-bold">{user.name}</div>
+          <ArrowRight size={16} />
+        </Button>
+      </div>
       <FollowProfileButton
         following={following}
         onButtonClick={clickFollowButton}
+        classes="mx-5"
       />
-      <Button
-        variant="outline-secondary"
-        size="sm"
-        className="mx-2"
-        onClick={() => navigate("/user/" + user._id)}
-      >
-        <ArrowRight size={16} />
-      </Button>
     </ListGroup.Item>
   )
 }
